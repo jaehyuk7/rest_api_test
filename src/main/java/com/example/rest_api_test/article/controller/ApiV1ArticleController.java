@@ -1,8 +1,13 @@
 package com.example.rest_api_test.article.controller;
 
+import com.example.rest_api_test.article.dto.ArticleDTO;
+import com.example.rest_api_test.article.entity.Article;
 import com.example.rest_api_test.article.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/articles")
@@ -11,27 +16,52 @@ public class ApiV1ArticleController {
     private final ArticleService articleService;
 
     @GetMapping("")
-    public String list() {
-        return "목록";
+    public List<ArticleDTO> list() {
+        List<ArticleDTO> articleList = new ArrayList<>();
+
+        Article article1 = new Article("제목1", "내용1");
+        articleList.add(new ArticleDTO(article1));
+
+        Article article2 = new Article("제목2", "내용2");
+        articleList.add(new ArticleDTO(article2));
+
+        Article article3 = new Article("제목3", "내용3");
+        articleList.add(new ArticleDTO(article3));
+
+        Article article4 = new Article("제목4", "내용4");
+        articleList.add(new ArticleDTO(article4));
+
+        return articleList;
     }
 
     @GetMapping("/{id}")
-    public String getArticle() {
-        return "단건";
+    public ArticleDTO getArticle(@PathVariable("id") Long id) {
+        Article article = new Article("제목1", "내용1");
+
+        ArticleDTO articleDTO = new ArticleDTO(article);
+
+        return articleDTO;
     }
 
     @PostMapping("")
-    public String create() {
-        return "등록";
+    public String create(@RequestParam("subject") String subject, @RequestParam("content") String content) {
+        System.out.println(subject);
+        System.out.println(content);
+        return "등록완료";
     }
 
     @PatchMapping("/{id}")
-    public String modify() {
-        return "수정";
+    public String modify(@PathVariable("id") Long id, @RequestParam("subject") String subject, @RequestParam("content") String content) {
+        System.out.println(id);
+        System.out.println(subject);
+        System.out.println(content);
+        return "수정완료";
     }
 
     @DeleteMapping("/{id}")
-    public String delete() {
-        return "삭제";
+    public String delete(@PathVariable("id") Long id) {
+        System.out.println(id);
+
+        return "삭제완료";
     }
 }
